@@ -20,7 +20,7 @@ Ez a projekt egy backend tesztfeladat megoldása, amely lehetővé teszi anyagok
 
 ### Előfeltételek
 * .NET 8 SDK telepítése
-* Visual Studio 2022 (ajánlott)
+* Visual Studio 2022 (ASP.Net webdevelopment, .net development)
 
 ### Indítás Visual Studio-val
 1.  Nyisd meg az `InventoryService.sln` fájlt.
