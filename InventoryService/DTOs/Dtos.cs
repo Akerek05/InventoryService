@@ -21,6 +21,7 @@ namespace InventoryApi.DTOs
         [Required]
         public int TypeId { get; set; } // 1 = In, 2 = Out (egyszerűsítve int-ként várjuk)
 
+        //minimum 0.01, hogy ne lehessen 0 vagy negatív értékeket megadni
         [Range(0.01, double.MaxValue, ErrorMessage = "A mennyiségnek nagyobbnak kell lennie 0-nál.")]
         public decimal Amount { get; set; }
     }

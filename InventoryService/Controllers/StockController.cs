@@ -29,7 +29,11 @@ namespace InventoryApi.Controllers
                 return NotFound("A megadott anyag nem található.");
             }
 
-            // B) Átalakítjuk az int típust Enum-ra
+            // B) Átalakítjuk az int típust Enum-ra, és ellenőrizzük, hogy érvényes-e
+            if (!Enum.IsDefined(typeof(MovementType), dto.TypeId))
+            {
+                return BadRequest("Érvénytelen mozgástípus! Csak 1 (Bevét) vagy 2 (Kiadás) értékek engedélyezettek.");
+            }
             var movementType = (MovementType)dto.TypeId;
 
             // C) KRITIKUS ÜZLETI LOGIKA: Fedezet ellenőrzése kiadásnál
@@ -37,12 +41,12 @@ namespace InventoryApi.Controllers
             {
                 // Kiszámoljuk a jelenlegi készletet az eddigi mozgásokból
                 // (Összes BEVÉT - Összes KIADÁS)
-                // 1. Lekérjük a mozgásokat a memóriába
+                // Lekérjük a mozgásokat a memóriába
                 var movements = await _context.StockMovements
                     .Where(m => m.MaterialId == dto.MaterialId)
                     .ToListAsync();
 
-                // 2. A C# végzi a számolást (ez már működik tizedessel is)
+               
                 var currentStock = movements.Sum(m => m.Type == MovementType.In ? m.Amount : -m.Amount);
 
                 if (currentStock < dto.Amount)
